@@ -33,22 +33,21 @@ hashSet.contains(2);    // 返回  false (已经被删除)
 
 using namespace  std;
 
-#define HASHSIZE  21
-
-typedef struct hashnode {
-    int key;
-    struct hashnode *next;
-}HashNode;
-
-HashNode *hashtab[HASHSIZE];
-
 class MyHashSet {
+    
+private:
+    #define HASHSIZE  21
+    typedef struct hashnode {
+        int key;
+        struct hashnode* next;
+    }HashNode;
+
+    HashNode* hashtab[HASHSIZE];
 public:
     /** Initialize your data structure here. */
     MyHashSet() {
 
     }
-
     int hash(int key) {
         key = key % HASHSIZE;
         return key;
@@ -119,24 +118,25 @@ public:
         return false;
     }
 };
+
 int main(void)
 {
 
     MyHashSet hashSet = MyHashSet();
-    //hashSet.test();
+    
     hashSet.add(6);
     hashSet.remove(4);
     hashSet.add(17);
     cout << hashSet.contains(14);
+    hashSet.add(14);
     hashSet.add(17);
-    hashSet.remove(14);
+    hashSet.remove(17);
     hashSet.add(14);
     hashSet.add(14);
     hashSet.add(18);
     hashSet.add(14);
     return 0;
 }
-
 
 /**
  * Your MyHashSet object will be instantiated and called as such:
