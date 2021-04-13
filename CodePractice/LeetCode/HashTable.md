@@ -8,7 +8,7 @@
 + contains(value) ：返回哈希集合中是否存在这个值。
 + remove(value)：将给定值从哈希集合中删除。如果哈希集合中没有这个值，什么也不做。
 
-示例:
+**示例:**
 ```C++
 输入：
 ["MyHashSet", "add", "add", "contains", "contains", "add", "contains", "remove", "contains"]
