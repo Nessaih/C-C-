@@ -29,114 +29,111 @@ hashSet.contains(2);    // 返回  false (已经被删除)
 
 ### 题解：
 ```C++
+
+
 #include <iostream>
 
-using namespace  std;
+
+using namespace std;
 
 class MyHashSet {
-    
 private:
-    #define HASHSIZE  21
-    typedef struct hashnode {
-        int key;
-        struct hashnode* next;
-    }HashNode;
+#define HASHSIZE  101
 
-    HashNode* hashtab[HASHSIZE];
+	typedef struct hashnode {
+		int key;
+		struct hashnode *next;
+	}HashNode;
+
+	HashNode *hashtab[HASHSIZE];
+
+	int hash(int  key)
+	{
+		key = key % HASHSIZE;
+		return key;
+	}
+
 public:
-    /** Initialize your data structure here. */
-    MyHashSet() {
+	/** Initialize your data structure here. */
+	MyHashSet() {
+		for (int i = 0; i < HASHSIZE; ++i)
+		{
+			hashtab[i] = NULL;
+		}
+	}
 
-    }
-    int hash(int key) {
-        key = key % HASHSIZE;
-        return key;
-    }
-    // void test(void) 
-    // {
-    //     for (int i = 0; i < 1000; i++)
-    //         cout << "i = " << i << "  hash = " << hash(i)<<'\n';
-    // }
+	void add(int key)
+	{
+		int hashkey = hash(key);
+		HashNode *p = hashtab[hashkey];
 
-    void add(int key) {
-        HashNode *p, *node;
-        int hashval;
-        hashval = hash(key);
-        p = hashtab[hashval];
-        if (false == contains(key)) {
-            node = (HashNode *)malloc(sizeof(HashNode));
-            node->key = key;
-            if (hashtab[hashval] == NULL){
-                hashtab[hashval] = node;
-                node->next = hashtab[hashval];
-            }
-            else {
-                p = hashtab[hashval]->next;
-                hashtab[hashval]->next = node;
-                node->next = p;
-            }
-        }
-    }
+		while (p)
+		{
+			if (key == p->key)
+				return;         //the key already exist
+			else
+				p = p->next;
+		}
+		if (p = (HashNode *)malloc(sizeof(HashNode)))
+		{
+			p->key = key;
+			p->next = hashtab[hashkey];
+			hashtab[hashkey] = p;
+		}
+	}
 
-    void remove(int key) {
-        HashNode *h, *p;
-        int hashval;
-        hashval = hash(key);
-        h = hashtab[hashval];
-        p = h;
-        if (p != NULL) {
-            do{
-                if (p->key == key){
-                    break;
-                }
-                h = p;
-                p = p->next;
-            } while (p == hashtab[hashval]);
-            if (h->next == p->next)
-                hashtab[hashval] = NULL;
-            else 
-                h->next = p->next;
-            free(p);
-        }
-    }
+	void remove(int key)
+	{
+		int hashkey = hash(key);
+		HashNode *p = hashtab[hashkey];
+		HashNode *h = NULL;
 
-    /** Returns true if this set contains the specified element */
-    bool contains(int key) {
-        HashNode *h, *p;
-        int hashval;
-        hashval = hash(key);
-        h = hashtab[hashval];
-        p = h;
-        while (p != NULL) {
-            if (p->key == key)
-                return true;
-            if (p->next != h)
-                p = p->next;
-            else
-                break;
-        }
-        return false;
-    }
+		if (p)
+		{
+			if (key == p->key)
+			{
+				hashtab[hashkey] = p->next;
+				free(p);
+				p = NULL;			//Preventing the execution of while(p)
+			}
+			else
+			{
+				h = p;
+				p = p->next;
+			}
+		}
+		while (p)
+		{
+			if (key == p->key)
+			{
+				h->next = p->next;
+				free(p);
+				p = NULL;
+			}
+			else
+			{
+				h = p;
+				p = p->next;
+			}
+		}
+	}
+
+	/** Returns true if this set contains the specified element */
+	bool contains(int key)
+	{
+		int hashkey = hash(key);
+		HashNode *p = hashtab[hashkey];
+
+		while (p)
+		{
+			if (key == p->key)
+				return true;
+			else
+				p = p->next;
+		}
+		return false;
+	}
 };
-
-int main(void)
-{
-
-    MyHashSet hashSet = MyHashSet();
-    
-    hashSet.add(6);
-    hashSet.remove(4);
-    hashSet.add(17);
-    cout << hashSet.contains(14);
-    hashSet.add(14);
-    hashSet.add(17);
-    hashSet.remove(17);
-    hashSet.add(14);
-    hashSet.add(14);
-    hashSet.add(18);
-    hashSet.add(14);
-    return 0;
-}
 
 /**
  * Your MyHashSet object will be instantiated and called as such:
@@ -145,5 +142,28 @@ int main(void)
  * obj->remove(key);
  * bool param_3 = obj->contains(key);
  */
+/**
+ * Your MyHashSet object will be instantiated and called as such:
+ * MyHashSet* obj = new MyHashSet();
+ * obj->add(key);
+ * obj->remove(key);
+ * bool param_3 = obj->contains(key);
+ */
+
+
+int main()
+{
+
+	MyHashSet tcs = MyHashSet();
+    MyHashSet hashSet = new MyHashSet();
+    hashSet.add(1);         
+    hashSet.add(2);         
+    cout << hashSet.contains(1);    // 返回 true
+    cout << hashSet.contains(3);    // 返回 false (未找到)
+    hashSet.add(2);          
+    cout << hashSet.contains(2);    // 返回 true
+    hashSet.remove(2);          
+    cout << hashSet.contains(2);    // 返回  false (已经被删除)
+}
  
 ```
