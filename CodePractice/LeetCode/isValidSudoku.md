@@ -55,7 +55,7 @@ board =
 
 ![picture2](https://github.com/Nessaih/C-CPP/blob/main/pictures/LC_isValidSudoku_2.png)
 
-**扩展**：观察规律，可以发现，对于长度为$n^2$ * $n^2$大小的数组，需要对每个子块`n*n`依次遍历，只需要令遍历坐标$(x,y) = ([i/n*n+j/n], [i%n*n+j%n])$即可。
+**扩展**：观察规律，可以发现，对于长度为`(n^2) * (n^2)`大小的数组，需要对每个子块`n*n`依次遍历，只需要令遍历坐标`(x,y) = ([i/n*n+j/n], [i%n*n+j%n])`即可。
 
 
 ```C++
